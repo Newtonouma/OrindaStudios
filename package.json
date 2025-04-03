@@ -1,6 +1,5 @@
 {
   "name": "iconicstudios",
-  "homepage": "https://Newtonouma.github.io/iconicstudios",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,14 +7,15 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
-  
+    "preview": "vite preview"
   },
   "dependencies": {
+    "framer-motion": "^12.6.3",
+    "imagesloaded": "^5.0.0",
+    "masonry-layout": "^4.2.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.4.1",
     "react-slick": "^0.30.3",
     "slick-carousel": "^1.8.1"
   },

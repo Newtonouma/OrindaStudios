@@ -1,7 +1,7 @@
 /* Footer.css */
 
 .footer {
-    background-color:green; /* Green color */
+    background-color: #1a1a1a; /* Green color */
     color: white;
     font-family: 'Arial', sans-serif;
 }
@@ -90,7 +90,7 @@
 
 .message-form button {
     background-color: white;
-    color: #2e7d32;
+    color: #695651;
     border: none;
     padding: 10px 20px;
     border-radius: 4px;
@@ -105,7 +105,7 @@
 
 /* Bottom section */
 .footer-bottom {
-    background-color: #1a1a1a; /* Dark background */
+    background-color: #010101; /* Dark background */
     padding: 20px;
     text-align: center;
 }

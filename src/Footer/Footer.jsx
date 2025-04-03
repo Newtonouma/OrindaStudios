@@ -7,7 +7,7 @@ function Footer() {
             <div className="footer-top">
                 {/* Column 1: About */}
                 <div className="footer-section about">
-                    <h2>Smile With Ven</h2>
+                    <h2>ICONIC LENSES</h2>
                     <p>
                         A non-profit volunteer organization dedicated to lifting spirits 
                         and spreading smiles through various family programs.
@@ -47,7 +47,7 @@ function Footer() {
 
             {/* Footer Bottom */}
             <div className="footer-bottom">
-                <p>&copy; {new Date().getFullYear()} Smile With Ven. All rights reserved.<br></br> Built and Maintained by Newton</p>
+                <p>&copy; {new Date().getFullYear()} ICONIC LENSES. All rights reserved.<br></br> Built and Maintained by Newton</p>
             </div>
         </footer>
     );
