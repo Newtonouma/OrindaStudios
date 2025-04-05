@@ -16,6 +16,8 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: fixed;
+    background-attachment: fixed;
     text-align: center;
     justify-content: center;
     animation: change 20s infinite ease-in-out;
@@ -200,6 +202,7 @@
 }
 
 @media (max-width: 480px) {
+  
     .slick-slide img {
         height: 150px;
     }

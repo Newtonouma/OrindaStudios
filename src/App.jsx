@@ -22,9 +22,7 @@ function App() {
       <Story/>
       <Textcarousel/>
       <Galary/>
-      <div className="backgraund">
       <PhotographyCTA/>
-      </div>
       <Testimonials/>
       <Footer />
       
