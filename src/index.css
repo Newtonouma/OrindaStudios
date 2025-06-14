@@ -1,0 +1,35 @@
+/* ===== GLOBAL RESET AND SHARED VARIABLES ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+
+/* Global Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Shared CSS Variables */
+:root {
+  --primary-gold: #d2c1af;
+  --accent-gold: #e6d7c9;
+  --text-white: #ffffff;
+  --text-light: #f8fafc;
+  --text-dark: #1a1a1a;
+  --text-gray: #94a3b8;
+  --background-dark: #0f172a;
+  --background-darker: #020617;
+  --navbar-height: 80px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Typography */
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+/* App Container */
+.App {
+  min-height: 100vh;
+}

@@ -7,14 +7,56 @@ import "./Testimonials.css";
 
 function Testimonial() {
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
-    speed: 500,
+    speed: 600,
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
-    arrows: false,
+    autoplaySpeed: 5000,
+    arrows: true,
+    centerMode: false,
+    pauseOnHover: true,
+    pauseOnFocus: true,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          arrows: true,
+        }
+      },
+      {
+        breakpoint: 900,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          arrows: false,
+          centerPadding: "20px",
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+          centerMode: true,
+          centerPadding: "40px",
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+          centerMode: true,
+          centerPadding: "20px",
+        }
+      }
+    ]
   };
 
   return (
@@ -23,8 +65,15 @@ function Testimonial() {
       <Slider {...settings} className="testimonial-slider">
         {testimonials.map((testimonial) => (
           <div key={testimonial.id} className="testimonial-card">
-            <img src={testimonial.image} alt={testimonial.name} className="testimonial-img" />
-            <p className="testimonial-message">"{testimonial.message}"</p>
+            <img 
+              src={testimonial.image} 
+              alt={`${testimonial.name} - ${testimonial.role}`} 
+              className="testimonial-img"
+              loading="lazy"
+            />
+            <p className="testimonial-message">
+              {testimonial.message}
+            </p>
             <h3 className="testimonial-name">{testimonial.name}</h3>
             <span className="testimonial-role">{testimonial.role}</span>
           </div>

@@ -1,8 +1,5 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ===== APP COMPONENT STYLES ===== */
+.App {
+  min-height: 100vh;
+  overflow-x: hidden;
 }
-.header{
-    margin-top: calc(-1 * var(--navbar-height));
-  }

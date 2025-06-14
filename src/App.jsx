@@ -1,36 +1,30 @@
 
 import React from "react";
-import Header from "./Header/Header"
-import Navbar from "./Navbar/Navbar"
-import Story from "./Story/Story"
-import Footer from "./Footer/Footer"
-import Display from "./Work-display/Display";
-import Galary from "./Gallery/Gallery";
-import Testimonials from "./Testimonials/Testimonials";
-import Textcarousel from "./Textcarousel/TextCarousel"
-import PhotographyCTA from "./PhotographyCta/PhotographyCTA";
-
-
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Navbar from "./Navbar/Navbar";
+import Footer from "./Footer/Footer";
+import Home from "./Pages/Home";
+import About from "./Pages/About";
+import Services from "./Pages/Services";
+import Contact from "./Pages/Contact";
 
 function App() {
-  
   return (
-    <>
-      <Navbar/>
-      <Header />
-      <Story/>
-      <Textcarousel/>
-      <Galary/>
-      <PhotographyCTA/>
-      <Testimonials/>
-      <Footer />
-      
-     
-    </>  
-
-  )
+    <Router>
+      <div className="App">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;
 
