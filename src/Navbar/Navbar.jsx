@@ -1,158 +1,154 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { FiMenu, FiX, FiCamera } from 'react-icons/fi';
 import './Navbar.css';
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { FiSearch, FiMenu, FiX, FiCamera } from 'react-icons/fi';
 
-function Navbar() {
+const Navbar = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [searchOpen, setSearchOpen] = useState(false);
+    const location = useLocation();
 
+    // Handle scroll effect for navbar background
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 50) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
+            const scrollPosition = window.scrollY;
+            setIsScrolled(scrollPosition > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Close menu when route changes
+    useEffect(() => {
+        setIsMenuOpen(false);
+    }, [location]);
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isMenuOpen && !event.target.closest('.navbar')) {
+                setIsMenuOpen(false);
             }
         };
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);    const toggleMenu = () => {
-        console.log('Mobile menu toggle clicked, current state:', menuOpen);
-        setMenuOpen(!menuOpen);
-        console.log('Mobile menu new state:', !menuOpen);
-    };
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [isMenuOpen]);
 
-    const toggleSearch = () => {
-        setSearchOpen(!searchOpen);
+    // Prevent body scroll when menu is open
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isMenuOpen]);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
     };
 
     const closeMenu = () => {
-        setMenuOpen(false);
-    };    const navItems = [
-        { name: 'Home', to: '/' },
-        { name: 'About', to: '/about' },
-        { name: 'Services', to: '/services' },
-        { name: 'Gallery', href: '#gallery' },
-        { name: 'Contact', to: '/contact' },
+        setIsMenuOpen(false);
+    };
+
+    // Navigation items
+    const navItems = [
+        { name: 'Home', path: '/' },
+        { name: 'About', path: '/about' },
+        { name: 'Services', path: '/services' },
+        { name: 'Gallery', path: '/gallery' },
+        { name: 'Contact', path: '/contact' }
     ];
 
+    // Check if current path is active
+    const isActiveLink = (path) => {
+        if (path === '/' && location.pathname === '/') {
+            return true;
+        }
+        return path !== '/' && location.pathname.startsWith(path);
+    };
+
     return (
-        <nav className={`navbar ${isScrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}>
-            <div className="nav-container">
-                {/* Logo */}
-                <div className="logo">
-                    <FiCamera className="logo-icon" />
-                    <span className="logo-text">ICONIC LENSES</span>
-                </div>                {/* Desktop Navigation - Centered */}                <div className="nav-center">
-                    <div className="nav-links desktop-nav">
-                        {navItems.map((item, index) => (
-                            item.to ? (
-                                <Link 
-                                    key={index} 
-                                    to={item.to} 
-                                    className="nav-link"
-                                    onClick={closeMenu}
-                                >
-                                    {item.name}
-                                </Link>
-                            ) : (
-                                <a 
-                                    key={index} 
-                                    href={item.href} 
-                                    className="nav-link"
-                                    onClick={closeMenu}
-                                >
-                                    {item.name}
-                                </a>
-                            )
-                        ))}
-                    </div>
-                </div>{/* Right Side Actions */}
-                <div className="nav-actions">
-                    <button className="book-now-btn">
-                        Book Now
-                    </button>
-                    
-                    <button 
-                        className="search-toggle"
-                        onClick={toggleSearch}
-                        aria-label="Toggle search"
-                    >
-                        <FiSearch />
-                    </button>
-                    
-                    <button 
-                        className={`mobile-toggle ${menuOpen ? 'active' : ''}`}
-                        onClick={toggleMenu}
-                        aria-label="Toggle menu"
-                    >
-                        {menuOpen ? <FiX /> : <FiMenu />}
-                    </button>
-                </div>                {/* Mobile Navigation */}
-                <div className={`mobile-nav ${menuOpen ? 'active' : ''}`}>
-                    <div className="mobile-nav-content">
-                        {/* Debug indicator */}
-                        <div style={{
-                            color: 'red', 
-                            fontSize: '12px', 
-                            marginBottom: '10px'
-                        }}>
-                            Menu state: {menuOpen ? 'OPEN' : 'CLOSED'}
-                        </div>
-                        {navItems.map((item, index) => (
-                            item.to ? (
-                                <Link 
-                                    key={index} 
-                                    to={item.to} 
-                                    className="mobile-nav-link"
-                                    onClick={closeMenu}
-                                >
-                                    {item.name}
-                                </Link>
-                            ) : (
-                                <a 
-                                    key={index} 
-                                    href={item.href} 
-                                    className="mobile-nav-link"
-                                    onClick={closeMenu}
-                                >
-                                    {item.name}
-                                </a>
-                            )
-                        ))}
-                        <button className="mobile-book-now-btn" onClick={closeMenu}>
-                            Book Now
-                        </button>
-                    </div>
-                </div>
-
-                {/* Search Bar */}
-                <div className={`search-bar ${searchOpen ? 'active' : ''}`}>
-                    <div className="search-input-wrapper">
-                        <FiSearch className="search-icon" />
-                        <input 
-                            type="text" 
-                            placeholder="Search galleries..." 
-                            className="search-input"
+        <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''} ${isMenuOpen ? 'menu-open' : ''}`}>
+            <div className="navbar-container">                {/* Logo */}
+                <div className="navbar-logo">
+                    <Link to="/" className="logo-link" onClick={closeMenu}>
+                        <img 
+                            src="/public/images/logo.jpg" 
+                            alt="Mc Orinda Studios Logo" 
+                            className="logo-image" 
                         />
-                        <button 
-                            className="search-close"
-                            onClick={toggleSearch}
-                            aria-label="Close search"
-                        >
-                            <FiX />
-                        </button>
-                    </div>
+                        <span className="logo-text">Mc Orinda Studios</span>
+                    </Link>
                 </div>
 
-                {/* Overlay for mobile menu */}
-                {menuOpen && <div className="nav-overlay" onClick={closeMenu}></div>}
+                {/* Desktop Navigation Links */}
+                <div className="navbar-menu">
+                    <ul className="navbar-nav">
+                        {navItems.map((item, index) => (
+                            <li key={index} className="nav-item">
+                                <Link 
+                                    to={item.path} 
+                                    className={`nav-link ${isActiveLink(item.path) ? 'active' : ''}`}
+                                    onClick={closeMenu}
+                                >
+                                    {item.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Contact Us Button & Mobile Toggle */}
+                <div className="navbar-actions">
+                    <Link to="/contact" className="contact-btn" onClick={closeMenu}>
+                        Contact Us
+                    </Link>
+                    
+                    {/* Mobile Menu Toggle */}
+                    <button 
+                        className={`mobile-toggle ${isMenuOpen ? 'active' : ''}`}
+                        onClick={toggleMenu}
+                        aria-label="Toggle navigation menu"
+                        aria-expanded={isMenuOpen}
+                    >
+                        {isMenuOpen ? <FiX /> : <FiMenu />}
+                    </button>
+                </div>
+
+                {/* Mobile Navigation Menu */}
+                <div className={`mobile-menu ${isMenuOpen ? 'active' : ''}`}>
+                    <ul className="mobile-nav">
+                        {navItems.map((item, index) => (
+                            <li key={index} className="mobile-nav-item">
+                                <Link 
+                                    to={item.path} 
+                                    className={`mobile-nav-link ${isActiveLink(item.path) ? 'active' : ''}`}
+                                    onClick={closeMenu}
+                                >
+                                    {item.name}
+                                </Link>
+                            </li>
+                        ))}
+                        <li className="mobile-nav-item">
+                            <Link to="/contact" className="mobile-contact-btn" onClick={closeMenu}>
+                                Contact Us
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+
+                {/* Mobile Menu Overlay */}
+                {isMenuOpen && <div className="menu-overlay" onClick={closeMenu}></div>}
             </div>
         </nav>
-    )
-}
+    );
+};
 
 export default Navbar;

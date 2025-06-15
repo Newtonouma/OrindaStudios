@@ -25,7 +25,7 @@ function Footer() {
                 <div className="footer-brand">
                     <div className="brand-header">
                         <FaCamera className="brand-icon" />
-                        <h2 className="brand-name">ICONIC LENSES</h2>
+                        <h2 className="brand-name">Mc Orinda Studios</h2>
                     </div>
                     <p className="brand-description">
                         Crafting visual stories that resonate. We capture the essence of life's 
@@ -139,7 +139,7 @@ function Footer() {
                 <div className="footer-bottom-content">
                     <div className="copyright">
                         <p>
-                            &copy; {currentYear} <span className="brand-highlight">ICONIC LENSES</span>.
+                            &copy; {currentYear} <span className="brand-highlight">Mc Orinda Studios</span>.
                         </p>
                     </div>
                     <div className="footer-links">
