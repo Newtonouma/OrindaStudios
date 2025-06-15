@@ -288,18 +288,25 @@
   padding: 2rem 1rem;
   opacity: 1; /* Make visible by default */
   transform: translateY(0); /* Remove initial transform */
-  transition: all 0.6s ease-out;  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.6s ease-out;  background: rgba(255, 255, 255, 0.08); /* More visible background */
   border-radius: 12px;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(210, 193, 175, 0.2);
+  border: 1px solid rgba(210, 193, 175, 0.3); /* More visible border */
+  min-height: 120px; /* Ensure minimum height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .view-more-container.view-more-animated {
   opacity: 1;
   transform: translateY(0);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(210, 193, 175, 0.3);
+  background: rgba(255, 255, 255, 0.12); /* Even more visible when animated */
+  border-color: rgba(210, 193, 175, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .view-more-btn {

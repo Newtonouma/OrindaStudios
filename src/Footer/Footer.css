@@ -251,6 +251,24 @@
   line-height: 1.4;
 }
 
+/* Clickable contact links in footer */
+.contact-value.clickable {
+  color: var(--text-light);
+  text-decoration: none;
+  transition: var(--transition);
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+}
+
+.contact-value.clickable:hover {
+  color: var(--primary-gold);
+  border-bottom-color: var(--primary-gold);
+}
+
+.contact-value.clickable:active {
+  color: var(--accent-gold);
+}
+
 /* ===== NEWSLETTER SECTION ===== */
 .footer-newsletter {
   display: flex;

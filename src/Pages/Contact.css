@@ -277,10 +277,27 @@
   font-size: 1rem;
 }
 
-.info-description {
-  color: var(--text-gray);
-  font-size: 0.9rem;
-  margin: 0;
+/* Clickable contact info links */
+.clickable-info {
+  color: var(--primary-gold);
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+  cursor: pointer;
+  display: inline-block;
+  border-bottom: 1px solid transparent;
+}
+
+.clickable-info:hover {
+  color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+.clickable-info:active {
+  transform: translateY(0);
 }
 
 /* ===== SOCIAL SECTION ===== */

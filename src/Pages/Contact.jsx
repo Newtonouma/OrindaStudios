@@ -7,7 +7,8 @@ import {
     FaInstagram,
     FaFacebookF,
     FaTwitter,
-    FaPinterestP
+    FaPinterestP,
+    FaYoutube
 } from 'react-icons/fa';
 import './Contact.css';
 
@@ -32,32 +33,35 @@ function Contact() {
         e.preventDefault();
         // Handle form submission here
         console.log('Form submitted:', formData);
-    };
-
-    const contactInfo = [
-        {
+    };    const contactInfo = [        {
             icon: FaEnvelope,
             title: 'Email Us',
-            value: 'hello@iconiclenses.com',
-            description: 'Send us a message anytime'
+            value: 'mcorindastudios@gmail.com',
+            description: 'Send us a message anytime',
+            link: 'mailto:mcorindastudios@gmail.com',
+            isClickable: true
         },
         {
             icon: FaPhone,
             title: 'Call Us',
-            value: '+1 (555) 123-4567',
-            description: 'Mon-Fri 9AM-6PM PST'
+            value: '0701689254',
+            description: 'Available for bookings and inquiries',
+            link: 'tel:+254701689254',
+            isClickable: true
         },
         {
             icon: FaMapMarkerAlt,
             title: 'Visit Studio',
-            value: '123 Photography Lane',
-            description: 'Creative District, CA 90210'
+            value: 'Juja, Nairobi, Kenya',
+            description: 'Professional Photography Studio',
+            isClickable: false
         },
         {
             icon: FaClock,
             title: 'Studio Hours',
             value: 'Mon-Fri: 9AM-6PM',
-            description: 'Weekends by appointment'
+            description: 'Weekends by appointment',
+            isClickable: false
         }
     ];
 
@@ -110,25 +114,23 @@ function Contact() {
                                         <label htmlFor="email">Email Address *</label>
                                         <input
                                             type="email"
-                                            id="email"
-                                            name="email"
+                                            id="email"                                            name="email"
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
-                                            placeholder="your@email.com"
+                                            placeholder="example@gmail.com"
                                         />
                                     </div>
                                 </div>
                                 <div className="form-row">
                                     <div className="form-group">
                                         <label htmlFor="phone">Phone Number</label>
-                                        <input
-                                            type="tel"
+                                        <input                                            type="tel"
                                             id="phone"
                                             name="phone"
                                             value={formData.phone}
                                             onChange={handleChange}
-                                            placeholder="(555) 123-4567"
+                                            placeholder="0701689254"
                                         />
                                     </div>
                                     <div className="form-group">
@@ -180,8 +182,7 @@ function Contact() {
                                 <h2>Contact Information</h2>
                                 <p>We'd love to hear from you. Here's how you can reach us.</p>
                             </div>
-                            
-                            <div className="contact-info-grid">
+                              <div className="contact-info-grid">
                                 {contactInfo.map((info, index) => (
                                     <div key={index} className="contact-info-card">
                                         <div className="info-icon">
@@ -189,25 +190,30 @@ function Contact() {
                                         </div>
                                         <div className="info-content">
                                             <h4>{info.title}</h4>
-                                            <p className="info-value">{info.value}</p>
+                                            {info.isClickable ? (
+                                                <a href={info.link} className="info-value clickable-info">
+                                                    {info.value}
+                                                </a>
+                                            ) : (
+                                                <p className="info-value">{info.value}</p>
+                                            )}
                                             <p className="info-description">{info.description}</p>
                                         </div>
                                     </div>
                                 ))}
                             </div>
 
-                            {/* Social Media */}
-                            <div className="social-section">
+                            {/* Social Media */}                            <div className="social-section">
                                 <h3>Follow Our Work</h3>
                                 <div className="social-links">
                                     <a href="#" className="social-link" aria-label="Instagram">
                                         <FaInstagram />
                                     </a>
-                                    <a href="#" className="social-link" aria-label="Facebook">
+                                    <a href="https://www.facebook.com/profile.php?id=61575972991699" className="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                                         <FaFacebookF />
                                     </a>
-                                    <a href="#" className="social-link" aria-label="Twitter">
-                                        <FaTwitter />
+                                    <a href="https://www.youtube.com/@fidelorinda" className="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                                        <FaYoutube />
                                     </a>
                                     <a href="#" className="social-link" aria-label="Pinterest">
                                         <FaPinterestP />

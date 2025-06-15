@@ -63,26 +63,24 @@ function Footer() {
                 {/* Contact Section */}
                 <div className="footer-contact">
                     <h3 className="section-title">Get In Touch</h3>
-                    <div className="contact-info">
-                        <div className="contact-item">
+                    <div className="contact-info">                        <div className="contact-item">
                             <FaEnvelope className="contact-icon" />
                             <div className="contact-details">
                                 <span className="contact-label">Email</span>
-                                <span className="contact-value">hello@iconiclenses.com</span>
+                                <a href="mailto:mcorindastudios@gmail.com" className="contact-value clickable">mcorindastudios@gmail.com</a>
                             </div>
-                        </div>
-                        <div className="contact-item">
+                        </div><div className="contact-item">
                             <FaPhone className="contact-icon" />
                             <div className="contact-details">
                                 <span className="contact-label">Phone</span>
-                                <span className="contact-value">+1 (555) 123-4567</span>
+                                <a href="tel:+254701689254" className="contact-value clickable">0701689254</a>
                             </div>
                         </div>
                         <div className="contact-item">
                             <FaMapMarkerAlt className="contact-icon" />
                             <div className="contact-details">
                                 <span className="contact-label">Studio</span>
-                                <span className="contact-value">123 Photography Lane<br />Creative District, CA 90210</span>
+                                <span className="contact-value">Juja, Nairobi, Kenya</span>
                             </div>
                         </div>
                         <div className="contact-item">
@@ -116,11 +114,10 @@ function Footer() {
                     </form>
                     <div className="social-media">
                         <h4 className="social-title">Follow Our Journey</h4>
-                        <div className="social-links">
-                            <a href="#" className="social-link" aria-label="Instagram">
+                        <div className="social-links">                            <a href="#" className="social-link" aria-label="Instagram">
                                 <FaInstagram />
                             </a>
-                            <a href="#" className="social-link" aria-label="Facebook">
+                            <a href="https://www.facebook.com/profile.php?id=61575972991699" className="social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                                 <FaFacebookF />
                             </a>
                             <a href="#" className="social-link" aria-label="Twitter">
@@ -129,7 +126,7 @@ function Footer() {
                             <a href="#" className="social-link" aria-label="Pinterest">
                                 <FaPinterestP />
                             </a>
-                            <a href="#" className="social-link" aria-label="YouTube">
+                            <a href="https://www.youtube.com/@fidelorinda" className="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
                                 <FaYoutube />
                             </a>
                         </div>
