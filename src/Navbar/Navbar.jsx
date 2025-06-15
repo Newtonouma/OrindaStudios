@@ -80,7 +80,7 @@ const Navbar = () => {
                 <div className="navbar-logo">
                     <Link to="/" className="logo-link" onClick={closeMenu}>
                         <img 
-                            src="/public/images/logo.jpg" 
+                            src="/public/images/logo.JPG" 
                             alt="Mc Orinda Studios Logo" 
                             className="logo-image" 
                         />
