@@ -5,26 +5,40 @@ import 'slick-carousel/slick/slick-theme.css';
 import { FaCamera, FaPlay, FaArrowDown } from 'react-icons/fa';
 import './Header.css';
 
+// Import background images
+import bg1 from '../assets/images/Background/1.jpg';
+import bg2 from '../assets/images/Background/2.jpg';
+import bg3 from '../assets/images/Background/3.jpg';
+import bg4 from '../assets/images/Background/4.jpg';
+
+// Import carousel images
+import photo1 from '../assets/images/photos/1.jpg';
+import photo2 from '../assets/images/photos/2.jpg';
+import photo4 from '../assets/images/photos/4.jpg';
+import photo5 from '../assets/images/photos/5.jpg';
+import photo7 from '../assets/images/photos/7.jpg';
+import photo8 from '../assets/images/photos/8.jpg';
+
 const Header = () => {
   const [currentBgIndex, setCurrentBgIndex] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [animationStage, setAnimationStage] = useState(0);
 
   const backgroundImages = [
-    '/src/assets/images/Background/1.jpg',
-    '/src/assets/images/Background/2.jpg', 
-    '/src/assets/images/Background/3.jpg',
-    '/src/assets/images/Background/4.jpg'
+    bg1,
+    bg2, 
+    bg3,
+    bg4
   ];
 
   // Carousel images array
   const carouselImages = [
-    '/src/assets/images/photos/1.jpg',
-    '/src/assets/images/photos/2.jpg',
-    '/src/assets/images/photos/4.jpg',
-    '/src/assets/images/photos/5.jpg',
-    '/src/assets/images/photos/7.jpg',
-    '/src/assets/images/photos/8.jpg'
+    photo1,
+    photo2,
+    photo4,
+    photo5,
+    photo7,
+    photo8
   ];
   // Carousel settings
   const carouselSettings = {
