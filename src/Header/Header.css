@@ -88,14 +88,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    var(--header-shadow-dark) 0%,
-    var(--header-shadow-medium) 30%,
-    var(--header-shadow-light) 70%,
-    var(--header-shadow-dark) 100%
-  );
-  z-index: 2;
+  background: rgb(34, 34, 34, 0.9);
+  z-index: 100;
 }
 
 /* ===== MAIN CONTENT CONTAINER ===== */

@@ -6,10 +6,10 @@ import { FaCamera, FaPlay, FaArrowDown } from 'react-icons/fa';
 import './Header.css';
 
 // Import background images
-import bg1 from '../assets/images/Background/1.jpg';
-import bg2 from '../assets/images/Background/2.jpg';
-import bg3 from '../assets/images/Background/3.jpg';
-import bg4 from '../assets/images/Background/4.jpg';
+import bg1 from '../assets/images/Background/background1.jpg';
+import bg2 from '../assets/images/Background/background2.jpg';
+import bg3 from '../assets/images/Background/background3.jpg';
+import bg4 from '../assets/images/Background/background4.jpg';
 
 // Import carousel images
 import photo1 from '../assets/images/photos/1.jpg';
@@ -169,8 +169,9 @@ const Header = () => {
             aria-hidden="true"
           />
         ))}
-        <div className="header-overlay" />
-      </div>      {/* Main Content Container */}
+        <div className="header-overlay" />  </div>      
+        
+        {/* Main Content Container */}
       <div className="header-content">        {/* Primary Heading */}
         <h1 className={`primary-heading ${animationStage >= 1 ? 'visible' : ''}`}>
           Capturing <span className="golden-text">Life's</span> Most

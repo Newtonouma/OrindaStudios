@@ -17,12 +17,11 @@ const Navbar = () => {
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    // Close menu when route changes
+    }, []);    // Close menu when route changes
     useEffect(() => {
+        console.log('Route changed to:', location.pathname);
         setIsMenuOpen(false);
-    }, [location]);    // Close menu when clicking outside - Optimized
+    }, [location]);// Close menu when clicking outside - Optimized
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (isMenuOpen && !event.target.closest('.navbar-container')) {
@@ -62,12 +61,8 @@ const Navbar = () => {
         e.preventDefault();
         e.stopPropagation();
         setIsMenuOpen(prev => !prev);
-    };
-
-    const closeMenu = (e) => {
-        if (e) {
-            e.preventDefault();
-        }
+    };    const closeMenu = () => {
+        console.log('Navigation clicked, closing menu...');
         setIsMenuOpen(false);
     };
 
@@ -106,12 +101,13 @@ const Navbar = () => {
                 {/* Desktop Navigation Links */}
                 <div className="navbar-menu">
                     <ul className="navbar-nav">
-                        {navItems.map((item, index) => (
-                            <li key={index} className="nav-item">
+                        {navItems.map((item, index) => (                            <li key={index} className="nav-item">
                                 <Link 
                                     to={item.path} 
-                                    className={`nav-link ${isActiveLink(item.path) ? 'active' : ''}`}
-                                    onClick={closeMenu}
+                                    className={`nav-link ${isActiveLink(item.path) ? 'active' : ''}`}                                    onClick={() => {
+                                        console.log('Desktop nav clicked:', item.path);
+                                        closeMenu();
+                                    }}
                                 >
                                     {item.name}
                                 </Link>
@@ -143,11 +139,13 @@ const Navbar = () => {
                 <div className={`mobile-menu ${isMenuOpen ? 'active' : ''}`}>
                     <ul className="mobile-nav">
                         {navItems.map((item, index) => (
-                            <li key={index} className="mobile-nav-item">
-                                <Link 
+                            <li key={index} className="mobile-nav-item">                                <Link 
                                     to={item.path} 
                                     className={`mobile-nav-link ${isActiveLink(item.path) ? 'active' : ''}`}
-                                    onClick={closeMenu}
+                                    onClick={() => {
+                                        console.log('Mobile nav clicked:', item.path);
+                                        closeMenu();
+                                    }}
                                 >
                                     {item.name}
                                 </Link>
