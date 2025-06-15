@@ -1,13 +1,21 @@
+/* ===== GROUP PICTURES COMPONENT CSS VARIABLES ===== */
+.group-pictures {
+  --primary-gold: #d2c1af;
+  --text-white: #ffffff;
+  --text-light: #f8fafc;
+  --background-dark: #222222;
+}
+
 .group-pictures {
     text-align: center;
     padding: 2rem;
-    background-color: #eef2f3;
+    background-color: var(--background-dark);
     min-height: 100vh;
   }
   
   .title {
     font-size: 2rem;
-    color: #222;
+    color: var(--text-white);
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;

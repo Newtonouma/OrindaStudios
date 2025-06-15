@@ -1,13 +1,21 @@
+/* ===== SINGLE PICTURES COMPONENT CSS VARIABLES ===== */
+.single-pictures {
+  --primary-gold: #d2c1af;
+  --text-white: #ffffff;
+  --text-light: #f8fafc;
+  --background-dark: #222222;
+}
+
 .single-pictures {
     text-align: center;
     padding: 2rem;
-    background-color: #f5f5f5;
+    background-color: var(--background-dark);
     min-height: 100vh;
   }
   
   .title {
     font-size: 2rem;
-    color: #333;
+    color: var(--text-white);
     margin-bottom: 1rem;
   }
   

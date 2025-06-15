@@ -1,30 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { FiChevronDown, FiPlay, FiInstagram, FiCamera } from 'react-icons/fi';
-import "./Header.css";
-
-// Import images the ES Module way
-import background1 from '../assets/images/background1.png';
-import background2 from '../assets/images/background2.jpg';
-import background3 from '../assets/images/background3.jpg';
-import background4 from '../assets/images/background4.jpg';
-
-const images = [background1, background2, background3, background4];
+import { FaCamera, FaPlay, FaArrowDown } from 'react-icons/fa';
+import './Header.css';
 
 const Header = () => {
-  const [currentBg, setCurrentBg] = useState(0);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentBg((prev) => (prev + 1) % 4);
-    }, 5000);
-    
-    return () => clearInterval(interval);
-  }, []);
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [animationStage, setAnimationStage] = useState(0);
 
-  const settings = {
+  const backgroundImages = [
+    '/src/assets/images/Background/1.jpg',
+    '/src/assets/images/Background/2.jpg', 
+    '/src/assets/images/Background/3.jpg',
+    '/src/assets/images/Background/4.jpg'
+  ];
+
+  // Carousel images array
+  const carouselImages = [
+    '/src/assets/images/photos/1.jpg',
+    '/src/assets/images/photos/2.jpg',
+    '/src/assets/images/photos/4.jpg',
+    '/src/assets/images/photos/5.jpg',
+    '/src/assets/images/photos/7.jpg',
+    '/src/assets/images/photos/8.jpg'
+  ];
+  // Carousel settings
+  const carouselSettings = {
     dots: false,
     infinite: true,
     speed: 800,
@@ -33,12 +36,15 @@ const Header = () => {
     autoplay: true,
     autoplaySpeed: 3000,
     arrows: false,
+    centerMode: false,
+    variableWidth: false,
     responsive: [
       {
         breakpoint: 1200,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
+          centerMode: false,
         }
       },
       {
@@ -46,6 +52,7 @@ const Header = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+          centerMode: false,
         }
       },
       {
@@ -53,96 +60,171 @@ const Header = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          centerMode: false,
         }
       }
     ]
   };
+  // Preload images for smooth transitions
+  useEffect(() => {
+    const preloadImages = async () => {
+      const promises = backgroundImages.map(src => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = src;
+        });
+      });
+      
+      try {
+        await Promise.all(promises);
+        setIsLoaded(true);
+      } catch (error) {
+        console.error('Error preloading images:', error);
+        setIsLoaded(true); // Still show component even if some images fail
+      }
+    };
 
-  const scrollToNextSection = () => {
-    window.scrollTo({
-      top: window.innerHeight,
-      behavior: 'smooth'
-    });
-  };
+    preloadImages();
+  }, [backgroundImages]);
+  // Staggered animation entrance
+  useEffect(() => {
+    if (isLoaded) {
+      const timeouts = [
+        setTimeout(() => setAnimationStage(1), 200),
+        setTimeout(() => setAnimationStage(2), 500),
+        setTimeout(() => setAnimationStage(3), 800),
+        setTimeout(() => setAnimationStage(4), 1100),
+        setTimeout(() => setAnimationStage(5), 1400),
+      ];
+
+      return () => timeouts.forEach(clearTimeout);
+    }
+  }, [isLoaded]);
+  // Background image rotation
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const interval = setInterval(() => {
+      setCurrentBgIndex(prev => (prev + 1) % backgroundImages.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isLoaded, backgroundImages.length]);
+
+  const handleScrollToNext = useCallback(() => {
+    const nextSection = document.querySelector('.story-container, .gallery-container, .navbar + section');
+    if (nextSection) {
+      nextSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }, []);
+
+  const handleViewPortfolio = useCallback(() => {
+    const gallerySection = document.querySelector('.gallery-container');
+    if (gallerySection) {
+      gallerySection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }, []);
+
+  const handleBookSession = useCallback(() => {
+    const contactSection = document.querySelector('.contact-page, .footer-container');
+    if (contactSection) {
+      contactSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }, []);
 
   return (
-    <div className={`header bg-${currentBg}`}>
-      {/* Background overlay for better text contrast */}
-      <div className="header-overlay"></div>
-      
-      {/* Main hero content */}
-      <div className="hero-content">
-        <div className="hero-badge">
-          <FiCamera className="badge-icon" />
-          <span>Professional Photography</span>
-        </div>
-        
-        <div className="hero-text">
-          <h1 className="hero-title">
-            Memories in a <span className="highlight">Snap</span>
-          </h1>
-          <p className="hero-subtitle">
-            Photography moments captured…naturally
-          </p>
-          <p className="hero-description">
-            Capturing life's precious moments with artistic vision and professional expertise. 
-            Every shot tells a story, every frame preserves a memory.
-          </p>
-        </div>
-        
-        <div className="hero-actions">
-          <button className="cta-button primary">
-            <FiPlay className="button-icon" />
-            View Portfolio
+    <header className={`orinda-header ${isLoaded ? 'loaded' : 'loading'}`}>
+      {/* Background Image Layers */}
+      <div className="header-backgrounds">
+        {backgroundImages.map((image, index) => (
+          <div
+            key={index}
+            className={`bg-layer ${index === currentBgIndex ? 'active' : ''}`}
+            style={{ backgroundImage: `url(${image})` }}
+            aria-hidden="true"
+          />
+        ))}
+        <div className="header-overlay" />
+      </div>      {/* Main Content Container */}
+      <div className="header-content">        {/* Primary Heading */}
+        <h1 className={`primary-heading ${animationStage >= 1 ? 'visible' : ''}`}>
+          Capturing <span className="golden-text">Life's</span> Most
+          <br />
+          <span className="golden-text">Beautiful</span> Moments
+        </h1>
+
+        {/* Secondary Heading */}
+        <h2 className={`secondary-heading ${animationStage >= 2 ? 'visible' : ''}`}>
+          Professional Photography Services That Tell Your Story
+        </h2>
+
+        {/* Description Text */}
+        <p className={`description-text ${animationStage >= 3 ? 'visible' : ''}`}>
+          Transform your special moments into timeless memories with our expert photography services. 
+          From weddings to portraits, we capture the essence of every emotion with artistic excellence.
+        </p>
+
+        {/* Call-to-Action Buttons */}
+        <div className={`cta-buttons ${animationStage >= 4 ? 'visible' : ''}`}>
+          <button 
+            className="cta-btn primary-btn"
+            onClick={handleViewPortfolio}
+            type="button"
+            aria-label="View our photography portfolio"
+          >
+            <FaPlay className="btn-icon" aria-hidden="true" />
+            <span>View Portfolio</span>
           </button>
-          <button className="cta-button secondary">
-            <FiInstagram className="button-icon" />
-            Follow Journey
-          </button>
-        </div>
-        
-        <div className="hero-stats">
-          <div className="stat-item">
-            <span className="stat-number">500+</span>
-            <span className="stat-label">Happy Clients</span>
-          </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">10k+</span>
-            <span className="stat-label">Photos Captured</span>
-          </div>
-          <div className="stat-divider"></div>
-          <div className="stat-item">
-            <span className="stat-number">5+</span>
-            <span className="stat-label">Years Experience</span>
-          </div>
-        </div>
-      </div>
-        {/* Featured work carousel */}
-      <div className="featured-carousel">
-        <div className="carousel-container">
-          <Slider {...settings}>
-            {images.map((img, index) => (
-              <div key={index} className="carousel-slide">
-                <div className="carousel-image-wrapper">
-                  <img src={img} alt={`Featured work ${index + 1}`} className="carousel-image" />
-                  <div className="image-overlay">
-                    <FiCamera className="overlay-icon" />
+          <button 
+            className="cta-btn secondary-btn"
+            onClick={handleBookSession}
+            type="button"
+            aria-label="Book a photography session"
+          >
+            <FaCamera className="btn-icon" aria-hidden="true" />
+            <span>Book Session</span>          </button>
+        </div>        {/* Featured work carousel */}
+        <div className={`featured-carousel ${animationStage >= 5 ? 'visible' : ''}`}>
+          <div className="carousel-container">
+            <Slider {...carouselSettings}>
+              {carouselImages.map((img, index) => (
+                <div key={index} className="carousel-slide">
+                  <div className="carousel-image-wrapper">
+                    <img src={img} alt={`Featured work ${index + 1}`} className="carousel-image" />
+                    <div className="image-overlay">
+                      <FaCamera className="overlay-icon" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </Slider>
+              ))}
+            </Slider>
+          </div>
         </div>
       </div>
-      
-      {/* Scroll indicator */}
-      <div className="scroll-indicator" onClick={scrollToNextSection}>
-        <div className="scroll-text">Explore More</div>
-        <FiChevronDown className="scroll-arrow" />
-      </div>
-    </div>
+
+      {/* Scroll Down Indicator */}
+      <button 
+        className={`scroll-down-btn ${animationStage >= 5 ? 'visible' : ''}`}
+        onClick={handleScrollToNext}
+        type="button"
+        aria-label="Scroll down to explore more content"
+      >
+        <span className="scroll-text">Explore More</span>
+        <FaArrowDown className="scroll-arrow" aria-hidden="true" />
+      </button>
+    </header>
   );
-}
+};
 
 export default Header;

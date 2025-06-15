@@ -25,17 +25,6 @@
   overflow: hidden;
 }
 
-.testimonial-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--gradient-gold);
-  z-index: 1;
-}
-
 /* ===== TESTIMONIAL TITLE ===== */
 .testimonial-container h2 {
   font-family: 'Playfair Display', serif;

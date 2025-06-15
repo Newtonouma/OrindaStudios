@@ -1,7 +1,17 @@
+/* ===== PHOTOCARD COMPONENT CSS VARIABLES ===== */
 .photo-card {
-    background: #fff;
+  --primary-gold: #d2c1af;
+  --text-white: #ffffff;
+  --text-light: #f8fafc;
+  --text-dark: #1a1a1a;
+  --background-dark: #222222;
+  --background-darker: #1a1a1a;
+}
+
+.photo-card {
+    background: var(--background-darker);
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -9,7 +19,7 @@
   
   .photo-card:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
   }
   
   .photo-img {
@@ -18,12 +28,11 @@
     object-fit: cover;
     display: block;
   }
-  
-  .photo-card h3 {
+    .photo-card h3 {
     font-size: 1.2rem;
-    color: #333;
+    color: var(--text-white);
     margin: 10px 0;
     padding: 10px;
-    background: #f8f9fa;
+    background: var(--background-dark);
   }
   

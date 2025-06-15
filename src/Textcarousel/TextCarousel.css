@@ -1,5 +1,11 @@
+/* ===== TEXT CAROUSEL COMPONENT CSS VARIABLES ===== */
 .elegant-carousel {
-    background-color: #222;
+  --primary-gold: #d2c1af;
+  --background-dark: #222222;
+}
+
+.elegant-carousel {
+    background-color: var(--background-dark);
     width: 100%;
     overflow: hidden;
     padding: 3.5rem 0;
@@ -16,9 +22,8 @@
     align-items: center;
     padding: 0 2.5rem;
   }
-  
-  .elegant-phrase {
-    color: #222;
+    .elegant-phrase {
+    color: var(--background-dark);
     font-size: 4rem;
     font-weight: 300;
     letter-spacing: 0.5px;
@@ -27,10 +32,10 @@
     opacity: 0.9;
     transition: opacity 0.3s ease;
     text-shadow: 
-    -1px -1px 0 #d2c1af,
-     1px -1px 0 #d2c1af,
-    -1px  1px 0 #d2c1af,
-     1px  1px 0 #d2c1af;
+    -1px -1px 0 var(--primary-gold),
+     1px -1px 0 var(--primary-gold),
+    -1px  1px 0 var(--primary-gold),
+     1px  1px 0 var(--primary-gold);
     
   }
   

@@ -142,8 +142,7 @@ function Footer() {
                 <div className="footer-bottom-content">
                     <div className="copyright">
                         <p>
-                            &copy; {currentYear} <span className="brand-highlight">ICONIC LENSES</span>. 
-                            Made with <FaHeart className="heart-icon" /> for capturing memories.
+                            &copy; {currentYear} <span className="brand-highlight">ICONIC LENSES</span>.
                         </p>
                     </div>
                     <div className="footer-links">
@@ -152,7 +151,7 @@ function Footer() {
                         <a href="#" className="footer-link">Site Map</a>
                     </div>
                     <div className="developer-credit">
-                        <p>Built by <span className="developer-highlight">Gravixel Solution</span></p>
+                        <p>Built by <span className="developer-highlight">Gravixel Solution - 0714453669</span></p>
                     </div>
                 </div>
             </div>
