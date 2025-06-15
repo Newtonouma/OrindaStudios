@@ -108,7 +108,6 @@
   justify-content: center;
   text-align: center;
   width: 100%;
-  margin: 0 auto;
   flex: 1;
 }
 
@@ -505,7 +504,7 @@
   }
 
   .carousel-image-wrapper {
-    height: 180px;
+    height: 250px;
   }
 
   .scroll-text {
