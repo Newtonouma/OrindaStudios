@@ -19,10 +19,10 @@ function Navbar() {
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    const toggleMenu = () => {
+    }, []);    const toggleMenu = () => {
+        console.log('Mobile menu toggle clicked, current state:', menuOpen);
         setMenuOpen(!menuOpen);
+        console.log('Mobile menu new state:', !menuOpen);
     };
 
     const toggleSearch = () => {
@@ -94,6 +94,14 @@ function Navbar() {
                 </div>                {/* Mobile Navigation */}
                 <div className={`mobile-nav ${menuOpen ? 'active' : ''}`}>
                     <div className="mobile-nav-content">
+                        {/* Debug indicator */}
+                        <div style={{
+                            color: 'red', 
+                            fontSize: '12px', 
+                            marginBottom: '10px'
+                        }}>
+                            Menu state: {menuOpen ? 'OPEN' : 'CLOSED'}
+                        </div>
                         {navItems.map((item, index) => (
                             item.to ? (
                                 <Link 

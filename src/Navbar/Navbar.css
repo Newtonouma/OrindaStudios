@@ -833,9 +833,23 @@
 @media (min-width: 769px) {
     .mobile-nav {
         display: none !important;
+        visibility: hidden !important;
     }
     
     .mobile-toggle {
         display: none !important;
+    }
+}
+
+/* Show mobile navigation on mobile devices */
+@media (max-width: 768px) {
+    .mobile-nav {
+        display: block !important;
+        visibility: visible !important;
+    }
+    
+    .mobile-toggle {
+        display: flex !important;
+        visibility: visible !important;
     }
 }

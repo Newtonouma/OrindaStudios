@@ -1,154 +1,221 @@
-import React, { useEffect, useRef, useState } from "react";
-import photos from "../assets/Data/photos";
-import "./Gallery.css";
-import Masonry from 'masonry-layout';
-import imagesLoaded from 'imagesloaded';
+'use client';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import './Gallery.css';
 
-function PhotoGallery() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [isLoading, setIsLoading] = useState(false);
-  const gridRef = useRef(null);
-  const masonryRef = useRef(null);
+// Import all photos
+import photo1 from '../assets/images/photos/1.jpg';
+import photo2 from '../assets/images/photos/2.jpg';
+import photo3 from '../assets/images/photos/3.jpg';
+import photo4 from '../assets/images/photos/4.jpg';
+import photo5 from '../assets/images/photos/5.jpg';
+import photo6 from '../assets/images/photos/6.jpg';
+import photo7 from '../assets/images/photos/7.jpg';
+import photo8 from '../assets/images/photos/8.jpg';
+import photo9 from '../assets/images/photos/9.jpg';
+import photo10 from '../assets/images/photos/10.jpg';
+import photo11 from '../assets/images/photos/11.jpg';
+import photo12 from '../assets/images/photos/12.jpg';
+import photo13 from '../assets/images/photos/13.jpg';
+import photo14 from '../assets/images/photos/14.jpg';
+import photo15 from '../assets/images/photos/15.jpg';
+import photo16 from '../assets/images/photos/16.jpg';
+import photo17 from '../assets/images/photos/17.jpg';
+import photo18 from '../assets/images/photos/18.jpg';
+import photo19 from '../assets/images/photos/19.jpg';
 
-  // Category options with better labels
-  const categories = [
-    { id: 'all', label: 'All', count: photos.length },
-    { id: 'wedding', label: 'Wedding', count: photos.filter(p => p.category === 'wedding').length },
-    { id: 'portrait', label: 'Portrait', count: photos.filter(p => p.category === 'portrait').length },
-    { id: 'landscape', label: 'Landscape', count: photos.filter(p => p.category === 'landscape').length }
-  ];
-
-  // Filter photos based on selected category
-  const filteredPhotos = selectedCategory === 'all' 
-    ? photos 
-    : photos.filter(photo => photo.category === selectedCategory);
-
-  // Handle category change with loading state
-  const handleCategoryChange = (categoryId) => {
-    if (categoryId === selectedCategory) return;
-    
-    setIsLoading(true);
-    setSelectedCategory(categoryId);
-    
-    // Simulate loading delay for smooth transition
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 300);
-  };
+// Custom hooks converted to JavaScript
+const useScrollAnimation = ({ threshold = 0.1, retriggerOnScroll = true }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
 
   useEffect(() => {
-    if (gridRef.current) {
-      // Initialize Masonry after images are loaded
-      const imgLoad = imagesLoaded(gridRef.current);
-
-      imgLoad.on('done', () => {
-        masonryRef.current = new Masonry(gridRef.current, {
-          itemSelector: '.photo-card',
-          columnWidth: '.photo-card',
-          percentPosition: true,
-          gutter: 10
-        });
-      });
-
-      return () => {
-        if (masonryRef.current) {
-          masonryRef.current.destroy();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (retriggerOnScroll) {
+          setIsVisible(entry.isIntersecting);
+        } else if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
         }
-      };
+      },
+      { threshold }
+    );
+
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
-  }, [filteredPhotos]); // Re-run the effect when filteredPhotos change
-  return (
-    <section className="gallery-container" role="main" aria-labelledby="gallery-title">
-      <h2 id="gallery-title" className="gallery-title">Gallery</h2>
 
-      {/* Category Filter Buttons */}
-      <div className="category-buttons" role="tablist" aria-label="Photo categories">
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            onClick={() => handleCategoryChange(category.id)}
-            className={selectedCategory === category.id ? 'active' : ''}
-            role="tab"
-            aria-selected={selectedCategory === category.id}
-            aria-controls="photo-grid"
-          >
-            {category.label}
-          </button>
-        ))}
-      </div>
-
-      <div 
-        id="photo-grid"
-        className={`photo-grid ${isLoading ? 'loading' : ''}`} 
-        ref={gridRef}
-        role="tabpanel"
-        aria-labelledby="gallery-title"
-      >
-        {filteredPhotos.map((photo, index) => (
-          <PhotoCard key={`${photo.id}-${selectedCategory}`} photo={photo} index={index} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function PhotoCard({ photo, index }) {
-  const cardRef = useRef(null);
-  const imgRef = useRef(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [clicked, setClicked] = useState(false);
-
-  useEffect(() => {
-    if (imgRef.current) {
-      const updateHeight = () => {
-        if (cardRef.current) {
-          cardRef.current.style.setProperty(
-            "--photo-img-height", 
-            `${imgRef.current.clientHeight}px`
-          );
-        }
-        setIsLoaded(true);
-      };
-      
-      imgRef.current.onload = updateHeight;
-      if (imgRef.current.complete) {
-        updateHeight();
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
+    };
+  }, [threshold, retriggerOnScroll, isVisible]);
+
+  return { ref, isVisible };
+};
+
+const useStaggeredAnimation = (itemCount, delay = 150, retrigger = true) => {
+  const [visibleItems, setVisibleItems] = useState([]);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (retrigger || visibleItems.length === 0) {
+            setVisibleItems([]);
+            for (let i = 0; i < itemCount; i++) {
+              setTimeout(() => {
+                setVisibleItems(prev => [...prev, i]);
+              }, i * delay);
+            }
+          }
+        } else if (retrigger) {
+          setVisibleItems([]);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [itemCount, delay, retrigger, visibleItems.length]);
+
+  return { ref, visibleItems };
+};
+
+// Gallery data
+const galleryItems = [
+  { id: 1, src: photo1, alt: 'Professional Portrait', title: 'Elegant Portrait', description: 'Capturing natural beauty and personality' },
+  { id: 2, src: photo2, alt: 'Event Photography', title: 'Special Moments', description: 'Preserving your most important events' },
+  { id: 3, src: photo3, alt: 'Wedding Photography', title: 'Wedding Bliss', description: 'Your perfect day, perfectly captured' },
+  { id: 4, src: photo4, alt: 'Family Portrait', title: 'Family Memories', description: 'Creating lasting family treasures' },
+  { id: 5, src: photo5, alt: 'Commercial Photography', title: 'Professional Work', description: 'High-quality commercial photography' },
+  { id: 6, src: photo6, alt: 'Artistic Portrait', title: 'Creative Vision', description: 'Artistic and creative photography' },
+  { id: 7, src: photo7, alt: 'Lifestyle Photography', title: 'Life in Motion', description: 'Capturing authentic lifestyle moments' },
+  { id: 8, src: photo8, alt: 'Nature Photography', title: 'Natural Beauty', description: 'The beauty of the natural world' },
+  { id: 9, src: photo9, alt: 'Urban Photography', title: 'City Life', description: 'Urban landscapes and city vibes' },
+  { id: 10, src: photo10, alt: 'Studio Photography', title: 'Studio Perfection', description: 'Controlled studio environments' },
+  { id: 11, src: photo11, alt: 'Outdoor Photography', title: 'Outdoor Adventures', description: 'Beautiful outdoor photography' },
+  { id: 12, src: photo12, alt: 'Fashion Photography', title: 'Fashion Forward', description: 'Stylish fashion photography' },
+  { id: 13, src: photo13, alt: 'Corporate Photography', title: 'Professional Image', description: 'Corporate and business photography' },
+  { id: 14, src: photo14, alt: 'Creative Photography', title: 'Creative Expression', description: 'Unique and creative photography' },
+  { id: 15, src: photo15, alt: 'Documentary Photography', title: 'Real Stories', description: 'Authentic documentary style' },
+  { id: 16, src: photo16, alt: 'Fine Art Photography', title: 'Artistic Vision', description: 'Fine art photography' },
+  { id: 17, src: photo17, alt: 'Street Photography', title: 'Street Life', description: 'Candid street photography' },
+  { id: 18, src: photo18, alt: 'Travel Photography', title: 'Travel Memories', description: 'Beautiful travel photography' },
+  { id: 19, src: photo19, alt: 'Architectural Photography', title: 'Architecture', description: 'Stunning architectural photography' }
+];
+
+const HomeGalleryPreview = () => {
+  const [loading, setLoading] = useState(true);
+  const [error] = useState(null);
+  
+  // Calculate items for 2 rows - assuming average 4-5 items per row on desktop
+  const maxItemsToShow = 8;
+  const limitedItems = galleryItems.slice(0, maxItemsToShow);
+  
+  // Scroll animations
+  const { ref: containerRef, isVisible } = useScrollAnimation({ threshold: 0.1, retriggerOnScroll: true });
+  const { ref: galleryRef, visibleItems } = useStaggeredAnimation(limitedItems.length, 150, true);
+
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, []);
 
-  const handleCardClick = () => {
-    setClicked(!clicked);
-  };
+  if (loading) {
+    return (
+      <div className="app-container">
+        <main className="main">
+          <header className="gallery-header">
+            <h1>Photo Gallery</h1>
+            <p className="subtitle">Loading our gallery...</p>
+          </header>
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-emerald-500"></div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleCardClick();
-    }
-  };
+  if (error) {
+    return (
+      <div className="app-container">
+        <main className="main">
+          <header className="gallery-header">
+            <h1>Photo Gallery</h1>
+            <p className="subtitle">Error loading gallery: {error}</p>
+          </header>
+        </main>
+      </div>
+    );
+  }
 
   return (
-    <div 
-      className={`photo-card ${isLoaded ? 'loaded' : ''}`} 
-      ref={cardRef}
-      onClick={handleCardClick}
-      onKeyPress={handleKeyPress}
-      tabIndex={0}
-      role="button"
-      aria-label={`View ${photo.title}`}
-      style={{ animationDelay: `${index * 0.1}s` }}
-    >
-      <img 
-        src={clicked ? photo.alternateImage || photo.image : photo.image}
-        alt={photo.title} 
-        className="photo-img" 
-        ref={imgRef}
-        loading="lazy"
-        onLoad={() => setIsLoaded(true)}
-      />      
+    <div className={`app-container ${isVisible ? 'animated' : ''}`} ref={containerRef}>     
+     <main className={`main ${isVisible ? 'main-animated' : ''}`}>
+        <header className={`gallery-header ${isVisible ? 'header-animated' : ''}`}>
+          <h1>The Visual Story</h1>
+          </header>
+
+        <div className={`gallery gallery-preview ${isVisible ? 'gallery-animated' : ''}`} ref={galleryRef}>
+          {limitedItems.map((item, index) => (
+            <figure 
+              key={item.id} 
+              className={`gallery-item ${visibleItems.includes(index) ? 'item-animated' : ''}`}
+            >
+              <img 
+                src={item.src}
+                alt={item.alt}
+                className="gallery-image"
+                loading="lazy"
+              />
+              <figcaption className="image-caption">
+                <h3 className="caption-title">{item.title}</h3>
+                <p className="caption-description">{item.description}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        {/* View More Button */}
+        {galleryItems.length > maxItemsToShow && (
+          <div className={`view-more-container ${isVisible ? 'view-more-animated' : ''}`}>
+            <Link to="/gallery" className="view-more-btn">
+              <span>View All Gallery</span>
+              <svg 
+                className="ml-2 w-5 h-5" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+            <p className="view-more-text">
+              Showing {limitedItems.length} of {galleryItems.length} images
+            </p>
+          </div>
+        )}
+      </main>
     </div>
   );
-}
+};
 
-export default PhotoGallery;
+export default HomeGalleryPreview;
